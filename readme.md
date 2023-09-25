@@ -182,6 +182,9 @@ round.
 ```shell
 tensorboard --logdir logs/{logger_save_dir}
 ```
+# License
+
+This repo is under CC BY 4.0 License. See [LICENSE](LICENSE) for details.
 
 # Cite
 
