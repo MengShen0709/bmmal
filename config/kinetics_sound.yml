@@ -1,0 +1,62 @@
+dataset_name: "kinetics_sound"
+model_name: "avmodel"
+manual_seed: 1000
+multi_label: False
+
+initial_query_budget: 1000
+query_budget: 1000
+query_strategy: "entropy"
+mini_batch: 1
+early_stop: False
+save_each_round_model: False
+
+m1: "Video"
+m2: "Audio"
+early_stop_params:
+  monitor: "Train/Top-1/MM"
+  min_delta: 0.00
+  patience: 100
+  verbose: True
+  stopping_threshold: 0.99 # Stop training immediately once the monitored quantity reaches this threshold.
+  mode: "max"
+  check_on_train_epoch_end: True
+
+dataset_params:
+  root_dir: "/workspace/Datasets/kinetics_sound"
+  batch_size: 32
+  num_workers: 4
+
+model_params:
+  m1_feature_size: 512
+  m2_feature_size: 512
+  class_num: 31
+  fuse: "concat"
+  pretrain: False
+
+logging_params:
+  save_dir: "logs/kinetics_sound"
+
+trainer_params:
+  devices: [0]
+  accelerator: gpu
+  max_epochs: 45
+  min_epochs: 45
+  limit_val_batches: 0.0
+  check_val_every_n_epoch: 1
+
+exp_params:
+  warm_up_epoch: 10
+  optimizer: "adam"
+  milestones: [20, 30, 40]
+  classifier:
+    lr: 0.001
+    weight_decay: 0.0001
+    betas: [0.95, 0.999]
+  m1_model:
+    lr: 0.002
+    weight_decay: 0.0001
+    betas: [0.95, 0.999]
+  m2_model:
+    lr: 0.001
+    weight_decay: 0.0001
+    betas: [0.95, 0.999]

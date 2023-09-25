@@ -1,0 +1,8 @@
+pytorch-lightning
+transformers
+nltk
+opencv-contrib-python
+librosa
+pandas
+tensorboard
+tqdm

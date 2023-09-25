@@ -1,0 +1,62 @@
+dataset_name: "food101"
+model_name: "bert_resnet"
+manual_seed: 1000
+multi_label: False
+
+initial_query_budget: 1000
+query_budget: 1000
+query_strategy: "entropy"
+mini_batch: 1
+early_stop: False
+save_each_round_model: False
+
+m1: "Text"
+m2: "Image"
+early_stop_params:
+  monitor: "Train/Top-1/MM"
+  min_delta: 0.00
+  patience: 100
+  verbose: False
+  stopping_threshold: 0.99
+  mode: "max"
+  check_on_train_epoch_end: True
+
+dataset_params:
+  root_dir: "/workspace/Datasets/UPMC_Food101"
+  batch_size: 32
+  num_workers: 8
+
+model_params:
+  m1_feature_size: 768
+  m2_feature_size: 2048
+  class_num: 101
+  fuse: "concat"
+
+logging_params:
+  save_dir: "logs/food101/"
+
+
+trainer_params:
+  devices: [0]
+  accelerator: gpu
+  max_epochs: 15
+  min_epochs: 15
+  limit_val_batches: 0.0
+  check_val_every_n_epoch: 3
+
+exp_params:
+  warm_up_epoch: 0
+  optimizer: "adamw"
+  milestones: [10]
+  classifier:
+    lr: 0.001
+    weight_decay: 0.01
+    betas: [0.9, 0.999]
+  m1_model:
+    lr: 0.00001
+    weight_decay: 0.01
+    betas: [ 0.9, 0.999]
+  m2_model:
+    lr: 0.0001
+    weight_decay: 0.01
+    betas: [ 0.9, 0.999]
